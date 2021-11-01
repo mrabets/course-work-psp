@@ -1,0 +1,24 @@
+.nav {
+  color: black;
+}
+
+* {
+  font-family: "Roboto";
+}
+
+.navbar-brand {
+  font-size: 30px;
+  font-family: "Oswald";
+}
+
+.nav-link {
+  font-size: 18px;
+}
+
+.nav-btn {
+  font-size: 18px;	
+}
+
+.mybtn{
+    margin:5px;
+}

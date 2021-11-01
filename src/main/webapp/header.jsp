@@ -1,0 +1,20 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+	<a class="nav navbar-brand" href="<c:url value="/" />">UNIT TEST</a>
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+      <li class="nav-item">
+        <a class="nav nav-link" href="show">Отобразить</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav nav-link" href="create">Создать</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav nav-link" href="#">Другое</a>
+      </li>
+    </ul>
+    <form class="nav-btn d-flex">
+      <a class="btn btn-outline-primary me-2" href="#">Вход</a>
+      <a class="btn btn-primary" href="#">Регистрация</a>
+    </form>
+</nav><br>
