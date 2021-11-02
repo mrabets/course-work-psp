@@ -9,7 +9,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %> 
 
 <z:layout pageTitle="Show utests">
-
-<h1>WELCOME</h1>
-
 </z:layout>
+
+<% if (session.getAttribute("login") != null) { %>
+<p>You are logged</p>
+
+<% } else { %>
+<p>You are NOT logged</p>
+<% } %>

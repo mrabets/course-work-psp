@@ -2,6 +2,7 @@
 
 <z:layout pageTitle="Show utests">
 
+	${alert}
 	<h1>Ураsss!</h1>
 
 </z:layout>

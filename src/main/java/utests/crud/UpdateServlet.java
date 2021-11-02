@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import mysql.utests.UnitTest;
 import mysql.utests.UnitTestDB;
@@ -18,23 +19,29 @@ public class UpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-	        throws ServletException, IOException {
-	 
-		try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            UnitTest unitTest = UnitTestDB.selectOne(id);
-            if(unitTest!=null) {
-                request.setAttribute("unitTest", unitTest);
-                getServletContext().getRequestDispatcher("/update.jsp").forward(request, response);
-            }
-            else {
-                getServletContext().getRequestDispatcher("/notfound.jsp").forward(request, response);
-            }
-        }
-        catch(Exception ex) {
-        	throw new ServletException(ex);
-        }
-	    }
+	        throws ServletException, IOException { 
+		HttpSession session = request.getSession();
+		
+		if (session.getAttribute("login") != null) {
+			try {
+	            int id = Integer.parseInt(request.getParameter("id"));
+	            UnitTest unitTest = UnitTestDB.selectOne(id);
+	            if(unitTest!=null) {
+	                request.setAttribute("unitTest", unitTest);
+	                getServletContext().getRequestDispatcher("/update.jsp").forward(request, response);
+	            }
+	            else {
+	                getServletContext().getRequestDispatcher("/notfound.jsp").forward(request, response);
+	            }
+	        }
+	        catch(Exception ex) {
+	        	throw new ServletException(ex);
+	        }
+		} else {
+			response.sendRedirect(request.getContextPath() + "/login");
+		}
+		
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	        throws ServletException, IOException {
@@ -57,5 +64,5 @@ public class UpdateServlet extends HttpServlet {
              
         	throw new ServletException(ex);
         }
-	    }
+	}
 }

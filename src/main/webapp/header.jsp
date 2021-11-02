@@ -13,8 +13,13 @@
         <a class="nav nav-link" href="#">Другое</a>
       </li>
     </ul>
+    
+    <% if (session.getAttribute("login") != null) { %>
+      <a class="btn btn-danger" href="logout">Выйти</a>	
+    <% } else { %>
     <form class="nav-btn d-flex">
-      <a class="btn btn-outline-primary me-2" href="#">Вход</a>
-      <a class="btn btn-primary" href="#">Регистрация</a>
+      <a class="btn btn-outline-primary me-2" href="login">Вход</a>
+      <a class="btn btn-primary" href="signup">Регистрация</a>
     </form>
+    <% } %>
 </nav><br>

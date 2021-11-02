@@ -11,28 +11,32 @@
 
 <z:layout pageTitle="Login">
 
-<form method="POST" action="login">
+<form method="POST" action="signup">
 
 <div class="col-md-5">  
-	<h1>Войти в систему</h1><br>
+	<h1>Регистрация в системе</h1><br>
 	<p style="color:red">${errorMsg}</p><br>
 </div>
 
-<div class="col-md-3">  
+<div class="col-md-3">
    <div class="mb-3">
       <label class="form-label">Логин</label>
-      <input type="text" name="login" class="form-control" id="email" reguired minlength=5>
+      <input type="text" name="login" class="form-control" minlength="5" required>
    </div>
    
    <div class="mb-3">
       <label class="form-label">Пароль</label>
-      <input type="password" name="password" class="form-control" reguired minlength=5>
+      <input type="password" name="password" class="form-control" minlength="5" required>
+   </div>
+   
+   <div class="mb-3">
+      <label class="form-label">Подтверждение пароля</label>
+      <input type="password" name="password_confirm" class="form-control" minlength="5" required>
    </div>
 
+  <input type="submit" name="btn_signup" value="Зарегестрироваться" class="btn btn-primary"><br><br>
 
-  <input type="submit" name="btn_login" value="Войти" class="btn btn-primary"><br><br>
-
-  <a class="mylink" href="signup">Нет аккаунта? <b> Создайте здесь! </b></a>	
+	<a class="mylink" href="login">Уже есть аккаунт? <b> Войдите здесь! </b></a>	
 </div>
 
 </form>
