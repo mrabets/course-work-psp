@@ -1,4 +1,4 @@
-package sessions.user;
+package sessions.users;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

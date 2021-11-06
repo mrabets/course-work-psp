@@ -1,4 +1,4 @@
-package sessions.user;
+package sessions.users;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -21,8 +21,7 @@ import java.sql.SQLException;
 
 @WebServlet("/signup")
 public class SignupServlet extends HttpServlet {
-	private static String url = "jdbc:mysql://localhost:3306/db_utest?useUnicode=true&serverTimezone=UTC&useSSL=true&verifyServerCertificate=false";
- 
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
@@ -58,7 +57,7 @@ public class SignupServlet extends HttpServlet {
 					request.getRequestDispatcher("/signup.jsp").forward(request, response);
 				}
 				else {
-					UserDB.insert(new User(login, password));
+					UserDB.insert(new User(login, password, false));
 					session.setAttribute("login", login);
 					request.setAttribute("alert", "<div class=\"alert alert-success\" role=\"alert\">\n"
 							+ "Вы успешно зарегестрировались в системе"

@@ -1,4 +1,4 @@
-package utests.crud;
+package crud.users;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,18 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mysql.users.User;
+import mysql.users.UserDB;
 import mysql.utests.UnitTest;
 import mysql.utests.UnitTestDB;
 
-@WebServlet("/show")
+@WebServlet("/admin_panel")
 public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		ArrayList<UnitTest> unit_tests = UnitTestDB.select();
-        request.setAttribute("unit_tests", unit_tests);
+		ArrayList<User> users = UserDB.select();
+        request.setAttribute("users", users);
           
-        getServletContext().getRequestDispatcher("/show.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/user_show.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

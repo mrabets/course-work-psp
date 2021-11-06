@@ -1,4 +1,4 @@
-package utests.crud;
+package crud.users;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import mysql.utests.UnitTest;
 import mysql.utests.UnitTestDB;
 
-@WebServlet("/update")
+@WebServlet("/user_update")
 public class UpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public class UpdateServlet extends HttpServlet {
 	            UnitTest unitTest = UnitTestDB.selectOne(id);
 	            if(unitTest!=null) {
 	                request.setAttribute("unitTest", unitTest);
-	                getServletContext().getRequestDispatcher("/update.jsp").forward(request, response);
+	                getServletContext().getRequestDispatcher("/utest_update.jsp").forward(request, response);
 	            }
 	            else {
 	                getServletContext().getRequestDispatcher("/notfound.jsp").forward(request, response);
@@ -58,7 +58,7 @@ public class UpdateServlet extends HttpServlet {
             
             UnitTest unitTest = new UnitTest(id, name, errorsNumber, leadTime, createdAt);
             UnitTestDB.update(unitTest);
-            response.sendRedirect(request.getContextPath() + "/show");
+            response.sendRedirect(request.getContextPath() + "/utest_show");
         }
         catch(Exception ex) {
              

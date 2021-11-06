@@ -8,7 +8,7 @@
 <z:layout pageTitle="Create utest">
 
 <div class="col-md-5 col-lg-8">
-    <form action="update" method="POST">
+    <form action="utest_update" method="POST">
     
 	<input type="hidden" value="${unitTest.id}" name="id" />
 	

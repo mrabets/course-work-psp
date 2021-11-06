@@ -7,16 +7,19 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import config.Config;
+
 public class UnitTestDB {
-	private static String url = "jdbc:mysql://localhost:3306/db_utest?useUnicode=true&serverTimezone=UTC&useSSL=true&verifyServerCertificate=false";
-    private static String username = "mrabets";
-    private static String password = "12102001Km_";
+	private final static String url = Config.url.label;
+    private final static String username = Config.username.label;
+    private final static String password = Config.password.label;
+    private final static String driver = Config.driver.label;
     
     public static ArrayList<UnitTest> select() {
          
         ArrayList<UnitTest> unitTests = new ArrayList<UnitTest>();
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName(driver).getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
                   
                 Statement statement = conn.createStatement();
@@ -45,7 +48,7 @@ public class UnitTestDB {
     	UnitTest unitTest = null;
     	
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName(driver).getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
                   
                 String sql = "SELECT * FROM unit_tests WHERE id=?";
@@ -75,7 +78,7 @@ public class UnitTestDB {
     
     public static int insert(UnitTest unitTest) {
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName(driver).getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
                   
                 String sql = "INSERT INTO unit_tests (name, errors_number, lead_time, created_at) Values (?, ?, ?, ?)";
@@ -98,7 +101,7 @@ public class UnitTestDB {
     public static int update(UnitTest unitTest) {
         
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName(driver).getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
                   
                 String sql = "UPDATE unit_tests SET name = ?, errors_number = ?, lead_time = ?, created_at = ? WHERE id = ?";
@@ -122,7 +125,7 @@ public class UnitTestDB {
     public static int delete(int id) {
         
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Class.forName(driver).getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
                   
                 String sql = "DELETE FROM unit_tests WHERE id = ?";

@@ -1,4 +1,4 @@
-package utests.crud;
+package crud.utests;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import mysql.utests.UnitTest;
 import mysql.utests.UnitTestDB;
 
-@WebServlet("/create")
+@WebServlet("/utest_create")
 public class CreateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,7 @@ public class CreateServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		if (session.getAttribute("login") != null) {
-			getServletContext().getRequestDispatcher("/create.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/utest_create.jsp").forward(request, response);
 		} else {
 			response.sendRedirect(request.getContextPath() + "/login");
 		}

@@ -1,4 +1,4 @@
-package sessions.user;
+package sessions.users;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -24,10 +24,7 @@ import java.util.ArrayList;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-	private static String url = "jdbc:mysql://localhost:3306/db_utest?useUnicode=true&serverTimezone=UTC&useSSL=true&verifyServerCertificate=false";
-    private static String username = "mrabets";
-    private static String password = "12102001Km_";
-    
+   
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,6 +50,9 @@ public class LoginServlet extends HttpServlet {
 		try {
 			if (UserDB.isUserExist(login, password)) {
 				session.setAttribute("login", login);
+				if (UserDB.isAdmin(login)) {
+					session.setAttribute("is_admin", true);
+				}
 				request.setAttribute("alert", "<div class=\"alert alert-success\" role=\"alert\">\n"
 						+ "Вы вошли в систему"
 						+ "</div>");

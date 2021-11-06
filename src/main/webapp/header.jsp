@@ -4,14 +4,16 @@
 	<a class="nav navbar-brand" href="<c:url value="/" />">UNIT TEST</a>
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
       <li class="nav-item">
-        <a class="nav nav-link" href="show">Отобразить</a>
+        <a class="nav nav-link" href="utest_show">Отобразить</a>
       </li>
       <li class="nav-item">
-        <a class="nav nav-link" href="create">Создать</a>
+        <a class="nav nav-link" href="utest_create">Создать</a>
       </li>
+      <% if (session.getAttribute("is_admin") != null) { %>
       <li class="nav-item">
-        <a class="nav nav-link" href="#">Другое</a>
+        <a class="nav nav-link" href="admin_panel">Панель администратора</a>
       </li>
+      <% } %>
     </ul>
     
     <% if (session.getAttribute("login") != null) { %>

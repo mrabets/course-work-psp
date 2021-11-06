@@ -1,4 +1,4 @@
-package utests.crud;
+package crud.utests;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import mysql.utests.UnitTestDB;
 
-@WebServlet("/delete")
+@WebServlet("/utest_delete")
 public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
       
@@ -22,7 +22,7 @@ public class DeleteServlet extends HttpServlet {
 				int id = Integer.parseInt(request.getParameter("id"));
 				UnitTestDB.delete(id);
 				
-				response.sendRedirect(request.getContextPath() + "/show");
+				response.sendRedirect(request.getContextPath() + "/admin_panel");
 			}
 	        catch(Exception ex) {   
 	        	throw new ServletException(ex);
