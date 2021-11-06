@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import custom.Encryption;
+import mysql.utests.UnitTest;
 
 import javax.servlet.ServletException;
 
@@ -46,16 +47,72 @@ public class UserDB {
         return users;
     }
     
+    public static User selectOne(int id) {
+    	
+    	User user = null;
+    	
+        try {
+            Class.forName(driver).getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, dbPassword)){
+                  
+                String sql = "SELECT * FROM user WHERE id=?";
+                
+                try (PreparedStatement preparedStatement = conn.prepareStatement(sql)){
+                    preparedStatement.setInt(1, id);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    
+                    if (resultSet.next()){
+ 
+                    	int prodId = resultSet.getInt(1);
+                        String login = resultSet.getString(2);
+                        String password = resultSet.getString(3);
+                        boolean admin = resultSet.getBoolean(4);
+                        
+                        user = new User(prodId, login, password, admin);
+                    }
+                }
+            }
+        }
+        catch(Exception ex){
+        	ex.printStackTrace();
+        }      
+        return user;
+    }
+    
     public static int insert(User user) {
         try {
             Class.forName(driver).getDeclaredConstructor().newInstance();
             try (Connection connector = DriverManager.getConnection(url, username, dbPassword)){
                   
-                String sql = "INSERT INTO user (login, password) VALUES (?, SHA1(?))";
+                String sql = "INSERT INTO user (login, password, is_admin) VALUES (?, SHA1(?), ?)";
                 try (PreparedStatement preparedStatement = connector.prepareStatement(sql)){
                     preparedStatement.setString(1, user.getLogin());
                     preparedStatement.setString(2, user.getPassword());
+                    preparedStatement.setBoolean(3, user.isAdmin());
                     
+                    return preparedStatement.executeUpdate();
+                }
+            }
+        }
+        catch(Exception ex){
+        	ex.printStackTrace();
+        }
+        return 0;
+    }
+    
+    public static int update(User user) {
+        
+        try{
+            Class.forName(driver).getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, dbPassword)){
+                  
+                String sql = "UPDATE user SET login = ?, password = SHA1(?), is_admin = ? WHERE id = ?";
+                try(PreparedStatement preparedStatement = conn.prepareStatement(sql)){
+                	preparedStatement.setString(1, user.getLogin());
+                    preparedStatement.setString(2, user.getPassword());
+                    preparedStatement.setBoolean(3, user.isAdmin());
+                    preparedStatement.setInt(4, user.getId());
+                      
                     return preparedStatement.executeUpdate();
                 }
             }

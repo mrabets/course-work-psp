@@ -17,20 +17,23 @@ public class DeleteServlet extends HttpServlet {
       
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
 		if (session.getAttribute("is_admin") != null) {
 			try {
 				int id = Integer.parseInt(request.getParameter("id"));
 				UserDB.delete(id);
 				
-				response.sendRedirect(request.getContextPath() + "/admin_panel");
+				if (!UserDB.isAdmin((String)session.getAttribute("login"))) {
+					response.sendRedirect(request.getContextPath() + "/logout");
+				} 
+				else {
+					response.sendRedirect(request.getContextPath() + "/admin_panel");
+				}
 			}
 	        catch(Exception ex) {   
 	        	throw new ServletException(ex);
 	        }
-		}
-		else {
+		} else {
 			response.sendRedirect(request.getContextPath() + "/login");
-		}	
+		}
 	}
 }

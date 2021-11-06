@@ -41,7 +41,7 @@ public class CreateServlet extends HttpServlet {
             UnitTest unitTest = new UnitTest(name, errorsNumber, leadTime, createdAt);
             UnitTestDB.insert(unitTest);
             
-            response.sendRedirect(request.getContextPath() + "/show");
+            response.sendRedirect(request.getContextPath() + "/utest_index");
         }
         catch(Exception ex) {           
         	throw new ServletException(ex);       	    

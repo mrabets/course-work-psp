@@ -9,19 +9,19 @@ public class User implements Serializable {
     private int id;
     private String login;
     private String password;
-    private Boolean isAdmin; 
+    private boolean admin; 
     
     public User(){ }
-    public User(String login, String password, Boolean isAdmin) {   
+    public User(String login, String password, boolean admin) {   
         this.login = login;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.admin = admin;
     }
-    public User(int id, String login, String password, Boolean isAdmin){ 
+    public User(int id, String login, String password, boolean admin){ 
         this.id = id;
         this.login = login;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.admin = admin;
     }
      
     public int getId() {
@@ -44,11 +44,11 @@ public class User implements Serializable {
         this.password = password;
     }
     
-    public Boolean getisAdmin() {
-        return isAdmin;
+    public boolean isAdmin() {
+        return admin;
     }
  
-    public void setisAdmin(Boolean isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 }

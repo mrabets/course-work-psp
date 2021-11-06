@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import mysql.utests.UnitTest;
 import mysql.utests.UnitTestDB;
 
-@WebServlet("/utest_show")
+@WebServlet("/utest_index")
 public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -20,7 +20,7 @@ public class IndexServlet extends HttpServlet {
 		ArrayList<UnitTest> unit_tests = UnitTestDB.select();
         request.setAttribute("unit_tests", unit_tests);
           
-        getServletContext().getRequestDispatcher("/utest_show.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/utest_index.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

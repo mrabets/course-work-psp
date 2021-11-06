@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import mysql.users.User;
+import mysql.users.UserDB;
 import mysql.utests.UnitTest;
 import mysql.utests.UnitTestDB;
 
@@ -22,7 +24,7 @@ public class CreateServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		if (session.getAttribute("login") != null) {
-			getServletContext().getRequestDispatcher("/utest_create.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/user_create.jsp").forward(request, response);
 		} else {
 			response.sendRedirect(request.getContextPath() + "/login");
 		}
@@ -30,18 +32,25 @@ public class CreateServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-            String name = request.getParameter("name");
-            int errorsNumber = Integer.parseInt(request.getParameter("errorsNumber"));
-            DateFormat formatter = new SimpleDateFormat("HH:mm");
-            java.sql.Time leadTime = new java.sql.Time(formatter.parse(request.getParameter("leadTime")).getTime());
-            
-            java.util.Date temp = (java.util.Date) new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("createdAt"));
-            java.sql.Date createdAt = new java.sql.Date(temp.getTime());
-            
-            UnitTest unitTest = new UnitTest(name, errorsNumber, leadTime, createdAt);
-            UnitTestDB.insert(unitTest);
-            
-            response.sendRedirect(request.getContextPath() + "/show");
+			HttpSession session = request.getSession();
+
+			if (session.getAttribute("is_admin") != null) {
+				response.sendRedirect(request.getContextPath());
+			}
+			
+            String login = request.getParameter("login");
+            String password = request.getParameter("password");
+            boolean admin = request.getParameter("isAdmin") != null ? true : false;
+            if (UserDB.isUserExist(login)) {
+				request.setAttribute("errorMsg", "<div class=\"alert alert-danger\" role=\"alert\">\n"
+						+ "Такой пользователь уже существует"
+						+ "</div>");
+				request.getRequestDispatcher("/user_create.jsp").forward(request, response);
+			}
+			else {
+				UserDB.insert(new User(login, password, admin));
+				response.sendRedirect(request.getContextPath() + "/admin_panel");
+			}
         }
         catch(Exception ex) {           
         	throw new ServletException(ex);       	    

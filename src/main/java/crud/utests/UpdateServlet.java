@@ -58,7 +58,7 @@ public class UpdateServlet extends HttpServlet {
             
             UnitTest unitTest = new UnitTest(id, name, errorsNumber, leadTime, createdAt);
             UnitTestDB.update(unitTest);
-            response.sendRedirect(request.getContextPath() + "/utest_show");
+            response.sendRedirect(request.getContextPath() + "/utest_index");
         }
         catch(Exception ex) {
              

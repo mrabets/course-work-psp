@@ -12,6 +12,8 @@
 
 <h1 class="display-5">Список пользователей</h1><br>
 
+<a class="mybtn btn btn-primary" href="user_create">Создать </a>
+
 <table class="table">
   <thead>
     <tr>
@@ -29,7 +31,7 @@
       <th scope="row">${user.id}</th>
       <td>${user.login}</td>
       <td>${user.password}</td>
-      <td>${user.isAdmin ? "Да" : "Нет"}</td>
+      <td>${user.admin ? "Да" : "Нет"}</td>
       <td>
       <div class="btn-group">
         <a class="mybtn btn btn-warning btn-sm" href="user_update?id=${user.id}">Обновить</a>

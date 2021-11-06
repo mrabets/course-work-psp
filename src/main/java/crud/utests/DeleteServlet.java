@@ -22,7 +22,7 @@ public class DeleteServlet extends HttpServlet {
 				int id = Integer.parseInt(request.getParameter("id"));
 				UnitTestDB.delete(id);
 				
-				response.sendRedirect(request.getContextPath() + "/admin_panel");
+				response.sendRedirect(request.getContextPath() + "/utest_index");
 			}
 	        catch(Exception ex) {   
 	        	throw new ServletException(ex);

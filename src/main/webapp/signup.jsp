@@ -11,10 +11,11 @@
 
 <z:layout pageTitle="Login">
 
+<h1 class="display-5">Регистрация в системе</h1><br>
+
 <form method="POST" action="signup">
 
 <div class="col-md-5">  
-	<h1>Регистрация в системе</h1><br>
 	<p style="color:red">${errorMsg}</p><br>
 </div>
 
