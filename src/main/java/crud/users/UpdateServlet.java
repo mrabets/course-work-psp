@@ -56,7 +56,7 @@ public class UpdateServlet extends HttpServlet {
             
             User user = new User(id, login, password, admin);
             UserDB.update(user);
-            response.sendRedirect(request.getContextPath() + "/admin_panel");
+            response.sendRedirect(request.getContextPath() + "/user_index");
         }
         catch(Exception ex) {
              

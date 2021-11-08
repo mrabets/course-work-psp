@@ -12,7 +12,9 @@
 
 <h1 class="display-5">Список модульных тестов</h1><br>
 
-<table class="table">
+<a class="mybtn btn btn-primary" href="unit_test_report">Сделать отчёт</a><br><br>
+
+<table class="display" style="width:100%" id="sortTable">
   <thead>
     <tr>
       <th scope="col">ID</th>
@@ -47,3 +49,9 @@
   </tbody>
 </table>
 </z:layout>
+
+<script>
+$(document).ready( function () {
+	var table = $('#sortTable').DataTable();
+} );
+</script>

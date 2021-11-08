@@ -12,9 +12,9 @@
 
 <h1 class="display-5">Список пользователей</h1><br>
 
-<a class="mybtn btn btn-primary" href="user_create">Создать </a>
+<a class="mybtn btn btn-primary" href="user_create">Создать </a><br><br>
 
-<table class="table">
+<table id="sortTable">
   <thead>
     <tr>
       <th scope="col">ID</th>
@@ -47,3 +47,9 @@
   </tbody>
 </table>
 </z:layout>
+
+<script>
+$(document).ready( function () {
+	var table = $('#sortTable').DataTable();
+} );
+</script>

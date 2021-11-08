@@ -34,8 +34,9 @@ public class CreateServlet extends HttpServlet {
 		try {
 			HttpSession session = request.getSession();
 
-			if (session.getAttribute("is_admin") != null) {
+			if (session.getAttribute("is_admin") == null) {
 				response.sendRedirect(request.getContextPath());
+				return;
 			}
 			
             String login = request.getParameter("login");
@@ -49,7 +50,7 @@ public class CreateServlet extends HttpServlet {
 			}
 			else {
 				UserDB.insert(new User(login, password, admin));
-				response.sendRedirect(request.getContextPath() + "/admin_panel");
+				response.sendRedirect(request.getContextPath() + "/user_index");
 			}
         }
         catch(Exception ex) {           

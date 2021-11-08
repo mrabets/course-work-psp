@@ -19,7 +19,7 @@
   <p style="color:red">${errorMsg}</p><br>
 </div>
 	
-    <div class="col-md-8">
+    <div class="col-md-3">
     	<label class="form-label">Логин</label>
 		<input name="login" required minlength="1" type="text" class="form-control" /><br>	  
 		

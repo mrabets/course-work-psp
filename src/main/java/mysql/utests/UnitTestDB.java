@@ -1,11 +1,14 @@
 package mysql.utests;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Formatter;
 
 import config.Config;
 
@@ -140,5 +143,35 @@ public class UnitTestDB {
         	ex.printStackTrace();
         }
         return 0;
+    }
+    
+    public static void exportToFile() throws IOException {
+    	    	
+    	 ArrayList<UnitTest> unitTests = select(); 
+    	 
+    	 FileWriter fw = new FileWriter("Report.txt", false);
+    	 
+    	 Formatter formatter = new Formatter(fw);
+    	 formatter.format(
+    			 "%3s %40s %15s %20s %25s",
+    			 "ID*", "Name*", "Errors*", "Lead time*", "Date of creation*"
+    			 );
+    	 fw.append('\n');
+    	 
+    	 for (UnitTest unitTest : unitTests) {
+    		 formatter = new Formatter(fw);
+ 	         formatter.format(
+ 	        		 "%3s %40s %15s %20s %25s",
+ 	        		String.valueOf(unitTest.getId()),
+ 	        		String.valueOf(unitTest.getName()),
+ 	        		String.valueOf(unitTest.geterrorsNumber()),
+ 	        		String.valueOf(unitTest.getleadTime()),
+ 	        		String.valueOf(unitTest.getcreatedAt()));
+ 	         
+ 	        fw.append('\n');
+    	 }
+ 
+    	 fw.flush();
+    	 fw.close();
     }
 }

@@ -26,7 +26,7 @@ public class DeleteServlet extends HttpServlet {
 					response.sendRedirect(request.getContextPath() + "/logout");
 				} 
 				else {
-					response.sendRedirect(request.getContextPath() + "/admin_panel");
+					response.sendRedirect(request.getContextPath() + "/user_index");
 				}
 			}
 	        catch(Exception ex) {   

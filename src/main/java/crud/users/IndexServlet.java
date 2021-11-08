@@ -15,7 +15,7 @@ import mysql.users.UserDB;
 import mysql.utests.UnitTest;
 import mysql.utests.UnitTestDB;
 
-@WebServlet("/admin_panel")
+@WebServlet("/user_index")
 public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
