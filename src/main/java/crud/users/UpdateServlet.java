@@ -1,6 +1,8 @@
 package crud.users;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -51,7 +53,13 @@ public class UpdateServlet extends HttpServlet {
 		try {
             int id = Integer.parseInt(request.getParameter("id"));
             String login = request.getParameter("login");
+            login = URLEncoder.encode( login, "ISO-8859-1" );
+            login = URLDecoder.decode( login, "UTF-8" );
+            
             String password = request.getParameter("password");
+            password = URLEncoder.encode( password, "ISO-8859-1" );
+            password = URLDecoder.decode( password, "UTF-8" );
+            
             boolean admin = request.getParameter("isAdmin") != null ? true : false;      
             
             User user = new User(id, login, password, admin);

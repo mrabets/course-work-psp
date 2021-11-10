@@ -1,6 +1,8 @@
 package crud.utests;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -49,6 +51,9 @@ public class UpdateServlet extends HttpServlet {
 		try {
             int id = Integer.parseInt(request.getParameter("id"));
             String name = request.getParameter("name");
+            name = URLEncoder.encode( name, "ISO-8859-1" );
+            name = URLDecoder.decode( name, "UTF-8" );
+            
             int errorsNumber = Integer.parseInt(request.getParameter("errorsNumber"));
             DateFormat formatter = new SimpleDateFormat("HH:mm");
             java.sql.Time leadTime = new java.sql.Time(formatter.parse(request.getParameter("leadTime")).getTime());

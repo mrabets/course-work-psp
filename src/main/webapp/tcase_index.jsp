@@ -13,6 +13,7 @@
 <h1 class="display-5">Список контрольных тестов</h1><br>
 
 <a class="mybtn btn btn-success" href="tcase_create">Создать </a><br><br>
+<a class="mybtn btn btn-warning" href="test_case_report">Сделать отчёт</a><br><br>
 <a class="mybtn btn btn-info" href="tcase_chart">Построить диаграмму</a><br><br>
 
 <table id="sortTable">

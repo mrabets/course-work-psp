@@ -1,4 +1,4 @@
-package crud.utests;
+package crud.tcases;
 
 import java.io.IOException;
 
@@ -8,15 +8,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mysql.utests.UnitTestDB;
+import mysql.tcases.TestCaseDB;
 
-@WebServlet("/unit_test_report")
+@WebServlet("/test_case_report")
 public class ReportServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		UnitTestDB.exportToFile();
-		
-		getServletContext().getRequestDispatcher("/utest_report.jsp").forward(request, response);
+		TestCaseDB.exportToFile();
+		request.setCharacterEncoding("UTF-8");
+	    response.setCharacterEncoding("UTF-8");
+		getServletContext().getRequestDispatcher("/tcase_report.jsp").forward(request, response);
 	}
 }

@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 
 import mysql.utests.UnitTest;
 import mysql.utests.UnitTestDB;
+import java.net.URLEncoder;
+import java.net.URLDecoder;
 
 @WebServlet("/utest_create")
 public class CreateServlet extends HttpServlet {
@@ -29,8 +31,14 @@ public class CreateServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
+		
 		try {
             String name = request.getParameter("name");
+            name = URLEncoder.encode( name, "ISO-8859-1" );
+            name = URLDecoder.decode( name, "UTF-8" );
+            
             int errorsNumber = Integer.parseInt(request.getParameter("errorsNumber"));
             DateFormat formatter = new SimpleDateFormat("HH:mm");
             java.sql.Time leadTime = new java.sql.Time(formatter.parse(request.getParameter("leadTime")).getTime());

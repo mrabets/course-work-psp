@@ -1,13 +1,19 @@
 package mysql.tcases;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Formatter;
 
 import config.Config;
+import mysql.utests.UnitTest;
 
 public class TestCaseDB {
 	private final static String url = Config.url.label;
@@ -135,4 +141,34 @@ public class TestCaseDB {
         }
         return 0;
     }
+    
+    public static void exportToFile() throws IOException {
+    	
+   	 ArrayList<TestCase> testCases = select(); 
+   	 
+   	 FileWriter fw = new FileWriter(new File("Reportt.txt"), StandardCharsets.UTF_8);
+   	 
+   	 Formatter formatter = new Formatter(fw);
+   	 formatter.format(
+   			 "%3s %40s %25s %20s %25s",
+   			 "ID*", "Name*", "Framework*", "Status*", "Last launch*"
+   			 );
+   	 fw.append('\n');
+   	 
+   	 for (TestCase testCase : testCases) {
+   		 formatter = new Formatter(fw);
+	         formatter.format(
+	        		 "%3s %40s %25s %20s %25s",
+	        		String.valueOf(testCase.getId()),
+	        		String.valueOf(testCase.getName()),
+	        		String.valueOf(testCase.getFramework()),
+	        		String.valueOf(testCase.getComplete()),
+	        		String.valueOf(testCase.getlastLaunch()));
+	         
+	        fw.append('\n');
+   	 }
+
+   	 fw.flush();
+   	 fw.close();
+   }
 }

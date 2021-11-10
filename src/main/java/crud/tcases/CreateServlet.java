@@ -1,6 +1,8 @@
 package crud.tcases;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat; 
 
@@ -33,7 +35,12 @@ public class CreateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
             String name = request.getParameter("name");
+            name = URLEncoder.encode( name, "ISO-8859-1" );
+            name = URLDecoder.decode( name, "UTF-8" );
+            
             String framework = request.getParameter("framework");
+            framework = URLEncoder.encode( framework, "ISO-8859-1" );
+            framework = URLDecoder.decode( framework, "UTF-8" );
             
             TestCase testCase = new TestCase(name, null, false, framework);
             TestCaseDB.insert(testCase);

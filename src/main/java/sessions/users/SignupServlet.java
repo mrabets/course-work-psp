@@ -2,6 +2,8 @@ package sessions.users;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,8 +42,16 @@ public class SignupServlet extends HttpServlet {
 		}
 
 		String login = request.getParameter("login");
+		login = URLEncoder.encode( login, "ISO-8859-1" );
+        login = URLDecoder.decode( login, "UTF-8" );
+        
 		String password = request.getParameter("password");
+		password = URLEncoder.encode( password, "ISO-8859-1" );
+		password = URLDecoder.decode( password, "UTF-8" );
+        
 		String password_confirm = request.getParameter("password_confirm");
+		password_confirm = URLEncoder.encode( password_confirm, "ISO-8859-1" );
+		password_confirm = URLDecoder.decode( password_confirm, "UTF-8" );
 		
 		if (!password.equals(password_confirm)) {
 			request.setAttribute("errorMsg", "<div class=\"alert alert-danger\" role=\"alert\">\n"
