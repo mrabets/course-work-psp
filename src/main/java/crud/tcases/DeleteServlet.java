@@ -1,6 +1,8 @@
 package crud.tcases;
 
 import java.io.IOException;
+import java.util.Arrays;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import mysql.tcases.TestCaseDB;
 
-@WebServlet("/tcase_delete")
+@WebServlet("/tcase_multiple_delete")
 public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
       
@@ -19,9 +21,15 @@ public class DeleteServlet extends HttpServlet {
 		
 		if (session.getAttribute("login") != null) {
 			try {
-				int id = Integer.parseInt(request.getParameter("id"));
-				TestCaseDB.delete(id);
+				String[] testCasesIds = request.getParameterValues("testCases");
 				
+				for(int i = 0; i < testCasesIds.length; i++) {
+				   TestCaseDB.delete(Integer.parseInt(testCasesIds[i]));
+				}
+				
+				response.sendRedirect(request.getContextPath() + "/tcase_index");
+			}
+			catch(NullPointerException e) {
 				response.sendRedirect(request.getContextPath() + "/tcase_index");
 			}
 	        catch(Exception ex) {   

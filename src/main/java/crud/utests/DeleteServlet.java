@@ -8,9 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import mysql.tcases.TestCaseDB;
 import mysql.utests.UnitTestDB;
 
-@WebServlet("/utest_delete")
+@WebServlet("/utest_multiple_delete")
 public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
       
@@ -19,9 +20,15 @@ public class DeleteServlet extends HttpServlet {
 		
 		if (session.getAttribute("login") != null) {
 			try {
-				int id = Integer.parseInt(request.getParameter("id"));
-				UnitTestDB.delete(id);
+				String[] unitTestsIds = request.getParameterValues("unitTests");
 				
+				for(int i = 0; i < unitTestsIds.length; i++) {
+					UnitTestDB.delete(Integer.parseInt(unitTestsIds[i]));
+				}
+				
+				response.sendRedirect(request.getContextPath() + "/utest_index");
+			}
+			catch(NullPointerException e) {
 				response.sendRedirect(request.getContextPath() + "/utest_index");
 			}
 	        catch(Exception ex) {   

@@ -12,11 +12,14 @@
 
 <h1 class="display-5">Список пользователей</h1><br>
 
-<a class="mybtn btn btn-primary" href="user_create">Создать </a><br><br>
+<form action="user_multiple_delete" method="POST" onsubmit="return confirm('Вы уверены?');"> 
+<a class="mybtn btn btn-success btn-sm" href="user_create">Создать </a> 
+<input type="submit" value="Удалить" class="mybtn btn btn-danger btn-sm" /><br><br>
 
 <table id="sortTable">
   <thead>
     <tr>
+      <th><input type="checkbox" onClick="toggle(this)" /></th>
       <th scope="col">ID</th>
       <th scope="col">Логин</th>
       <th scope="col">Пароль</th>
@@ -28,6 +31,7 @@
   <h1></h1>
   <c:forEach var="user" items="${users}">
     <tr>
+      <td><input type="checkbox" name="users" value="${user.id}"></td>
       <th scope="row">${user.id}</th>
       <td>${user.login}</td>
       <td>${user.password}</td>
@@ -35,21 +39,28 @@
       <td>
       <div class="btn-group">
         <a class="mybtn btn btn-warning btn-sm" href="user_update?id=${user.id}">Обновить</a>
-
-      	<form action="user_delete" method="POST" onsubmit="return confirm('Вы уверены?');">
-          <input type="hidden" name="id" value=${user.id} />
-          <input type="submit" value="Удалить" class="mybtn btn btn-danger btn-sm"  />
-    	</form>
       </div>
       </td>
     </tr>
   </c:forEach>  
   </tbody>
 </table>
+</form><br><br>
 </z:layout>
 
 <script>
 $(document).ready( function () {
-	var table = $('#sortTable').DataTable();
+	var table = $('#sortTable').DataTable({
+	    language: {
+	        url: '//cdn.datatables.net/plug-ins/1.11.3/i18n/ru.json'
+	    }
+	});
 } );
+
+function toggle(source) {
+  checkboxes = document.getElementsByName('users');
+  for(let i = 0, n = checkboxes.length; i < n; i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
 </script>
