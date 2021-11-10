@@ -1,5 +1,7 @@
 package crud.tcases;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -18,6 +20,22 @@ public class ReportServlet extends HttpServlet {
 		TestCaseDB.exportToFile();
 		request.setCharacterEncoding("UTF-8");
 	    response.setCharacterEncoding("UTF-8");
+	    
+	    try(BufferedReader br = new BufferedReader(new FileReader("Reportt.txt"))) {
+	        StringBuilder sb = new StringBuilder();
+	        String line = br.readLine();
+
+	        while (line != null) {
+	            sb.append(line);
+	            sb.append(System.lineSeparator());
+	            line = br.readLine();
+	        }
+	        String everything = sb.toString();
+	        request.setAttribute("everything", everything);
+	    }
+	    
+	    
+	    
 		getServletContext().getRequestDispatcher("/tcase_report.jsp").forward(request, response);
 	}
 }
