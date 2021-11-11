@@ -57,7 +57,7 @@ public class TestCaseDB {
             Class.forName(driver).getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
                   
-                String sql = "SELECT id, name, framework FROM test_cases WHERE id=?";
+                String sql = "SELECT id, name, framework, is_complete FROM test_cases WHERE id=?";
                 
                 try (PreparedStatement preparedStatement = conn.prepareStatement(sql)){
                     preparedStatement.setInt(1, id);
@@ -68,8 +68,9 @@ public class TestCaseDB {
                     	int prodId = resultSet.getInt(1);
                         String name = resultSet.getString(2);
                         String framework = resultSet.getString(3);
+                        Boolean complete = resultSet.getBoolean(4);
                         
-                        unitTest = new TestCase(prodId, name, null, false, framework);
+                        unitTest = new TestCase(prodId, name, null, complete, framework);
                     }
                 }
             }
@@ -106,11 +107,12 @@ public class TestCaseDB {
             Class.forName(driver).getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
                   
-                String sql = "UPDATE test_cases SET name = ?, framework = ? WHERE id = ?";
+                String sql = "UPDATE test_cases SET name = ?, framework = ?, is_complete = ? WHERE id = ?";
                 try(PreparedStatement preparedStatement = conn.prepareStatement(sql)){
                 	preparedStatement.setString(1, testCase.getName());
                     preparedStatement.setString(2, testCase.getFramework());
-                    preparedStatement.setInt(3, testCase.getId());
+                    preparedStatement.setBoolean(3, testCase.getComplete());
+                    preparedStatement.setInt(4, testCase.getId());
                       
                     return  preparedStatement.executeUpdate();
                 }
@@ -142,6 +144,26 @@ public class TestCaseDB {
         return 0;
     }
     
+    public static int markStatus(int id) {
+        
+        try{
+            Class.forName(driver).getDeclaredConstructor().newInstance();
+            try (Connection conn = DriverManager.getConnection(url, username, password)){
+                  
+                String sql = "UPDATE test_cases SET is_complete = 1, last_launch = NOW() WHERE id=?;";
+                try(PreparedStatement preparedStatement = conn.prepareStatement(sql)){
+                    preparedStatement.setInt(1, id);
+                      
+                    return preparedStatement.executeUpdate();
+                }
+            }
+        }
+        catch(Exception ex){
+        	ex.printStackTrace();
+        }
+        return 0;
+    }
+    
     public static void exportToFile() throws IOException {
     	
    	 ArrayList<TestCase> testCases = select(); 
@@ -150,7 +172,7 @@ public class TestCaseDB {
    	 
    	 Formatter formatter = new Formatter(fw);
    	 formatter.format(
-   			 "%3s %40s %25s %20s %25s",
+   			 "%3s %80s %25s %20s %25s",
    			 "ID*", "Name*", "Framework*", "Status*", "Last launch*"
    			 );
    	 fw.append('\n');
@@ -158,7 +180,7 @@ public class TestCaseDB {
    	 for (TestCase testCase : testCases) {
    		 formatter = new Formatter(fw);
 	         formatter.format(
-	        		 "%3s %40s %25s %20s %25s",
+	        		 "%3s %80s %25s %20s %25s",
 	        		String.valueOf(testCase.getId()),
 	        		String.valueOf(testCase.getName()),
 	        		String.valueOf(testCase.getFramework()),

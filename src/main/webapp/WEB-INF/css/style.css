@@ -26,3 +26,8 @@
 .mybtn{
     margin:5px;
 }
+
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+}

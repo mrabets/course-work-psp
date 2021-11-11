@@ -15,9 +15,13 @@
 <a class="mybtn btn btn-warning" href="test_case_report">Сделать отчёт</a>
 <a class="mybtn btn btn-info" href="tcase_chart">Построить диаграмму</a><hr>
 
-<form action="tcase_multiple_delete" method="POST" onsubmit="return confirm('Вы уверены?');"> 
-<a class="mybtn btn btn-success btn-sm" href="tcase_create">Создать </a> 
-<input type="submit" value="Удалить" class="mybtn btn btn-danger btn-sm" /><br><br>
+<form action="tcase_batch" method="POST" onsubmit="return confirm('Вы уверены?');"> 
+
+<a class="mybtn btn btn-primary btn-sm" href="tcase_create">Создать </a> 
+
+<button type="submit" name="commit" value="Delete" class="mybtn btn btn-danger btn-sm">Удалить</button>
+<button type="submit" name="commit" value="Run" class="mybtn btn btn-success btn-sm">Запустить</button><br><br>
+
 
 <table id="sortTable">
   <thead>
@@ -43,10 +47,10 @@
       <td>
       
       <c:if test="${test_case.complete == true}">
-	    <button type="button" class="btn btn-sm btn-success" disabled>Успешно</button>
+	    <button type="button" class="btn btn-sm btn-success" disabled>Выполнено</button>
 	  </c:if>
 	  <c:if test="${test_case.complete == false}">
-	     <button type="button" class="btn btn-sm btn-danger" disabled>Неудачно</button>
+	     <button type="button" class="btn btn-sm btn-danger" disabled>Не выполнено</button>
 	  </c:if>
       
       </td>

@@ -61,7 +61,12 @@ public class UpdateServlet extends HttpServlet {
             framework = URLEncoder.encode( framework, "ISO-8859-1" );
             framework = URLDecoder.decode( framework, "UTF-8" );
             
-            TestCase testCase = new TestCase(id, name, null, false, framework);
+            boolean complete = false; 
+            if (request.getParameter("complete") != null) {
+            	complete = true; 
+            }
+            
+            TestCase testCase = new TestCase(id, name, null, complete, framework);
             TestCaseDB.update(testCase);
             
             response.sendRedirect(request.getContextPath() + "/tcase_index");

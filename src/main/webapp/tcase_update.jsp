@@ -22,6 +22,15 @@
 		<label class="form-label">Фреймворк</label>
 		<input value="${testCase.framework}" name="framework" required minlength="1" type="text" list="frameworks" class="form-control" /><br>	
 		
+		<div>
+		  Выполнен?
+		  <input value="${testCase.complete}" name="complete" class="form-check-input" type="checkbox" 
+		  <c:if test="${testCase.complete == true}">
+		    checked
+		  </c:if>
+		  /><br>	
+		</div>
+		
 		<datalist id="frameworks">
 		  <select>
 		    <c:forEach var="framework" items="${frameworks}">
