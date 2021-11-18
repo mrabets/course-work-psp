@@ -1,29 +1,22 @@
 package sessions.users;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import mysql.users.User;
 import mysql.users.UserDB;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 @WebServlet("/signup")
 public class SignupServlet extends HttpServlet {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
@@ -67,7 +60,7 @@ public class SignupServlet extends HttpServlet {
 					request.getRequestDispatcher("/signup.jsp").forward(request, response);
 				}
 				else {
-					UserDB.insert(new User(login, password, false));
+					new UserDB().insert(new User(login, password, false));
 					session.setAttribute("login", login);
 					request.setAttribute("alert", "<div class=\"alert alert-success\" role=\"alert\">\n"
 							+ "Вы успешно зарегестрировались в системе"

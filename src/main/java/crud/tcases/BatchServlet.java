@@ -26,7 +26,7 @@ public class BatchServlet extends HttpServlet {
 				switch(commit) {
 				case "Delete":				
 					for(int i = 0; i < testCasesIds.length; i++) {
-						TestCaseDB.delete(Integer.parseInt(testCasesIds[i]));
+						new TestCaseDB().delete(Integer.parseInt(testCasesIds[i]));
 					}
 					break;
 				case "Run":

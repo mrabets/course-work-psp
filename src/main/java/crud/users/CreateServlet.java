@@ -3,20 +3,14 @@ package crud.users;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat; 
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import mysql.users.User;
 import mysql.users.UserDB;
-import mysql.utests.UnitTest;
-import mysql.utests.UnitTestDB;
 
 @WebServlet("/user_create")
 public class CreateServlet extends HttpServlet {
@@ -57,7 +51,7 @@ public class CreateServlet extends HttpServlet {
 				request.getRequestDispatcher("/user_create.jsp").forward(request, response);
 			}
 			else {
-				UserDB.insert(new User(login, password, admin));
+				new UserDB().insert(new User(login, password, admin));
 				response.sendRedirect(request.getContextPath() + "/user_index");
 			}
         }

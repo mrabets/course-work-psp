@@ -3,20 +3,14 @@ package crud.users;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import mysql.users.User;
 import mysql.users.UserDB;
-import mysql.utests.UnitTest;
-import mysql.utests.UnitTestDB;
 
 @WebServlet("/user_update")
 public class UpdateServlet extends HttpServlet {
@@ -29,7 +23,7 @@ public class UpdateServlet extends HttpServlet {
 		if (session.getAttribute("login") != null) {
 			try {
 	            int id = Integer.parseInt(request.getParameter("id"));
-	            User user = UserDB.selectOne(id);
+	            User user = new UserDB().selectOne(id);
 	            if(user!=null) {
 	                request.setAttribute("user", user);
 	                getServletContext().getRequestDispatcher("/user_update.jsp").forward(request, response);
@@ -63,7 +57,7 @@ public class UpdateServlet extends HttpServlet {
             boolean admin = request.getParameter("isAdmin") != null ? true : false;      
             
             User user = new User(id, login, password, admin);
-            UserDB.update(user);
+            new UserDB().update(user);
             response.sendRedirect(request.getContextPath() + "/user_index");
         }
         catch(Exception ex) {

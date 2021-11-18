@@ -31,9 +31,6 @@ public class CreateServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		
 		try {
             String name = request.getParameter("name");
             name = URLEncoder.encode( name, "ISO-8859-1" );
@@ -47,7 +44,7 @@ public class CreateServlet extends HttpServlet {
             java.sql.Date createdAt = new java.sql.Date(temp.getTime());
             
             UnitTest unitTest = new UnitTest(name, errorsNumber, leadTime, createdAt);
-            UnitTestDB.insert(unitTest);
+            new UnitTestDB().insert(unitTest);
             
             response.sendRedirect(request.getContextPath() + "/utest_index");
         }

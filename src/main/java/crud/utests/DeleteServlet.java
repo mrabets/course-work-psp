@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import mysql.tcases.TestCaseDB;
 import mysql.utests.UnitTestDB;
 
 @WebServlet("/utest_multiple_delete")
@@ -23,7 +21,8 @@ public class DeleteServlet extends HttpServlet {
 				String[] unitTestsIds = request.getParameterValues("unitTests");
 				
 				for(int i = 0; i < unitTestsIds.length; i++) {
-					UnitTestDB.delete(Integer.parseInt(unitTestsIds[i]));
+					//UnitTestDB.delete(Integer.parseInt(unitTestsIds[i]));
+					new UnitTestDB().delete(Integer.parseInt(unitTestsIds[i]));
 				}
 				
 				response.sendRedirect(request.getContextPath() + "/utest_index");

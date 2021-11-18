@@ -18,7 +18,7 @@ public class ChartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		ArrayList<TestCase> test_cases = TestCaseDB.select();
+		ArrayList<TestCase> test_cases = new TestCaseDB().select();
 		String test_cases_json = new Gson().toJson(test_cases);
 		request.setAttribute("test_cases_json", test_cases_json);
           

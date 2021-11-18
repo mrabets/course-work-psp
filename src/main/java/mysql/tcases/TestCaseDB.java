@@ -8,168 +8,30 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Formatter;
+import mysql.DatabaseTemplate;
 
-import config.Config;
-import mysql.utests.UnitTest;
-
-public class TestCaseDB {
-	private final static String url = Config.url.label;
-    private final static String username = Config.username.label;
-    private final static String password = Config.password.label;
-    private final static String driver = Config.driver.label;
-    
-    public static ArrayList<TestCase> select() {
-         
-        ArrayList<TestCase> unitTests = new ArrayList<TestCase>();
-        try{
-            Class.forName(driver).getDeclaredConstructor().newInstance();
-            try (Connection conn = DriverManager.getConnection(url, username, password)){
-                  
-                Statement statement = conn.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM test_cases");
-                while(resultSet.next()){
-                      
-                    int id = resultSet.getInt(1);
-                    String name = resultSet.getString(2);
-                    String last_launch = resultSet.getString(3);
-                    boolean complete = resultSet.getBoolean(4);
-                    String framework = resultSet.getString(5);
-                    
-                    TestCase unitTest = new TestCase(id, name, last_launch, complete, framework);
-                    unitTests.add(unitTest);
-                }
-            }
-        }
-        catch(Exception ex){
-            System.out.println(ex);
-        }
-        return unitTests;
-    }
-    
-    public static TestCase selectOne(int id) {
-    	
-    	TestCase unitTest = null;
-    	
-        try {
-            Class.forName(driver).getDeclaredConstructor().newInstance();
-            try (Connection conn = DriverManager.getConnection(url, username, password)){
-                  
-                String sql = "SELECT id, name, framework, is_complete FROM test_cases WHERE id=?";
-                
-                try (PreparedStatement preparedStatement = conn.prepareStatement(sql)){
-                    preparedStatement.setInt(1, id);
-                    ResultSet resultSet = preparedStatement.executeQuery();
-                    
-                    if (resultSet.next()){
- 
-                    	int prodId = resultSet.getInt(1);
-                        String name = resultSet.getString(2);
-                        String framework = resultSet.getString(3);
-                        Boolean complete = resultSet.getBoolean(4);
-                        
-                        unitTest = new TestCase(prodId, name, null, complete, framework);
-                    }
-                }
-            }
-        }
-        catch(Exception ex){
-        	ex.printStackTrace();
-        }      
-        return unitTest;
-    }
-    
-    public static int insert(TestCase testCase) {
-        try{
-            Class.forName(driver).getDeclaredConstructor().newInstance();
-            try (Connection conn = DriverManager.getConnection(url, username, password)){
-                  
-                String sql = "INSERT INTO test_cases (name, framework) Values (?, ?)";
-                try(PreparedStatement preparedStatement = conn.prepareStatement(sql)){
-                    preparedStatement.setString(1, testCase.getName());
-                    preparedStatement.setString(2, testCase.getFramework());
-                    
-                    return  preparedStatement.executeUpdate();
-                }
-            }
-        }
-        catch(Exception ex){
-        	ex.printStackTrace();
-        }
-        return 0;
-    }
-    
-    public static int update(TestCase testCase) {
-        
-        try{
-            Class.forName(driver).getDeclaredConstructor().newInstance();
-            try (Connection conn = DriverManager.getConnection(url, username, password)){
-                  
-                String sql = "UPDATE test_cases SET name = ?, framework = ?, is_complete = ? WHERE id = ?";
-                try(PreparedStatement preparedStatement = conn.prepareStatement(sql)){
-                	preparedStatement.setString(1, testCase.getName());
-                    preparedStatement.setString(2, testCase.getFramework());
-                    preparedStatement.setBoolean(3, testCase.getComplete());
-                    preparedStatement.setInt(4, testCase.getId());
-                      
-                    return  preparedStatement.executeUpdate();
-                }
-            }
-        }
-        catch(Exception ex){
-        	ex.printStackTrace();
-        }
-        return 0;
-    }
-    
-    public static int delete(int id) {
-        
-        try{
-            Class.forName(driver).getDeclaredConstructor().newInstance();
-            try (Connection conn = DriverManager.getConnection(url, username, password)){
-                  
-                String sql = "DELETE FROM test_cases WHERE id = ?";
-                try(PreparedStatement preparedStatement = conn.prepareStatement(sql)){
-                    preparedStatement.setInt(1, id);
-                      
-                    return preparedStatement.executeUpdate();
-                }
-            }
-        }
-        catch(Exception ex){
-        	ex.printStackTrace();
-        }
-        return 0;
-    }
-    
+public class TestCaseDB extends DatabaseTemplate<TestCase> {
     public static int markStatus(int id) {
-        
         try{
             Class.forName(driver).getDeclaredConstructor().newInstance();
             try (Connection conn = DriverManager.getConnection(url, username, password)){
-                  
-                String sql = "UPDATE test_cases SET is_complete = 1, last_launch = NOW() WHERE id=?;";
+                String sql = "UPDATE test_cases SET is_complete = 1, last_launch = NOW() WHERE id = ?;";
                 try(PreparedStatement preparedStatement = conn.prepareStatement(sql)){
                     preparedStatement.setInt(1, id);
-                      
                     return preparedStatement.executeUpdate();
                 }
             }
         }
-        catch(Exception ex){
-        	ex.printStackTrace();
-        }
+        catch(Exception ex){ ex.printStackTrace(); }
         return 0;
     }
     
-    public static void exportToFile() throws IOException {
-    	
+	@SuppressWarnings("resource")
+	public void exportToFile() throws IOException {	
    	 ArrayList<TestCase> testCases = select(); 
-   	 
    	 FileWriter fw = new FileWriter(new File("Reportt.txt"), StandardCharsets.UTF_8);
-   	 
    	 Formatter formatter = new Formatter(fw);
    	 formatter.format(
    			 "%3s %80s %25s %20s %25s",
@@ -179,18 +41,53 @@ public class TestCaseDB {
    	 
    	 for (TestCase testCase : testCases) {
    		 formatter = new Formatter(fw);
-	         formatter.format(
-	        		 "%3s %80s %25s %20s %25s",
-	        		String.valueOf(testCase.getId()),
-	        		String.valueOf(testCase.getName()),
-	        		String.valueOf(testCase.getFramework()),
-	        		String.valueOf(testCase.getComplete()),
-	        		String.valueOf(testCase.getlastLaunch()));
-	         
+         formatter.format(
+        		 "%3s %80s %25s %20s %25s",
+        		String.valueOf(testCase.getId()),
+        		String.valueOf(testCase.getName()),
+        		String.valueOf(testCase.getFramework()),
+        		String.valueOf(testCase.getComplete()),
+        		String.valueOf(testCase.getlastLaunch()));     
 	        fw.append('\n');
    	 }
-
    	 fw.flush();
    	 fw.close();
    }
+    
+    @Override
+    public String getSqlSelect() { return "SELECT * FROM test_cases"; }
+    
+    @Override
+    public String getSqlSelectOne() { return "SELECT id, name, framework, is_complete FROM test_cases WHERE id = ?"; }
+    
+    @Override
+    public String getSqlInsert() { return "INSERT INTO test_cases (name, framework) Values (?, ?)"; }
+    
+    @Override
+    public String getSqlUpdate() { return "UPDATE test_cases SET name = ?, framework = ?, is_complete = ? WHERE id = ?"; }
+    
+    @Override
+    public String getSqlDelete() { return "DELETE FROM test_cases WHERE id = ?"; }
+    
+    public TestCase selectResult(ResultSet resultSet) throws Exception {
+    	return new TestCase(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getBoolean(4), resultSet.getString(5));
+	}
+    
+    public TestCase selectOneResult(ResultSet resultSet) throws Exception {
+    	return new TestCase(resultSet.getInt(1), resultSet.getString(2), null, resultSet.getBoolean(4), resultSet.getString(3));
+	}
+
+    public int insertResult(PreparedStatement preparedStatement, TestCase testCase) throws Exception {
+    	preparedStatement.setString(1, testCase.getName());
+        preparedStatement.setString(2, testCase.getFramework());
+        return preparedStatement.executeUpdate();
+	}
+
+    public int updateResult(PreparedStatement preparedStatement, TestCase testCase) throws Exception {
+    	preparedStatement.setString(1, testCase.getName());
+        preparedStatement.setString(2, testCase.getFramework());
+        preparedStatement.setBoolean(3, testCase.getComplete());
+        preparedStatement.setInt(4, testCase.getId());
+        return preparedStatement.executeUpdate();
+	}
 }

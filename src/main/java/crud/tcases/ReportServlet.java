@@ -17,7 +17,7 @@ public class ReportServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		TestCaseDB.exportToFile();
+		new TestCaseDB().exportToFile();
 		request.setCharacterEncoding("UTF-8");
 	    response.setCharacterEncoding("UTF-8");
 	    

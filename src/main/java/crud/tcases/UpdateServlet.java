@@ -3,20 +3,15 @@ package crud.tcases;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import custom.DefaultValue;
 import mysql.tcases.TestCase;
 import mysql.tcases.TestCaseDB;
-import custom.DefaultValue;
 
 @WebServlet("/tcase_update")
 public class UpdateServlet extends HttpServlet {
@@ -29,7 +24,7 @@ public class UpdateServlet extends HttpServlet {
 		if (session.getAttribute("login") != null) {
 			try {
 	            int id = Integer.parseInt(request.getParameter("id"));
-	            TestCase testCase = TestCaseDB.selectOne(id);
+	            TestCase testCase = new TestCaseDB().selectOne(id);
 	            if(testCase!=null) {
 	            	request.setAttribute("frameworks", DefaultValue.frameworks);
 	                request.setAttribute("testCase", testCase);
@@ -67,7 +62,7 @@ public class UpdateServlet extends HttpServlet {
             }
             
             TestCase testCase = new TestCase(id, name, null, complete, framework);
-            TestCaseDB.update(testCase);
+            new TestCaseDB().update(testCase);
             
             response.sendRedirect(request.getContextPath() + "/tcase_index");
         }

@@ -7,10 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import mysql.tcases.TestCaseDB;
 import mysql.users.UserDB;
-import mysql.utests.UnitTestDB;
 
 @WebServlet("/user_multiple_delete")
 public class DeleteServlet extends HttpServlet {
@@ -23,7 +20,7 @@ public class DeleteServlet extends HttpServlet {
 				String[] usersIds = request.getParameterValues("users");
 				
 				for(int i = 0; i < usersIds.length; i++) {
-					UserDB.delete(Integer.parseInt(usersIds[i]));
+					new UserDB().delete(Integer.parseInt(usersIds[i]));
 				}
 				
 				if (!UserDB.isAdmin((String)session.getAttribute("login"))) {

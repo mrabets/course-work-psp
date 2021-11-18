@@ -3,16 +3,12 @@ package crud.tcases;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat; 
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import mysql.tcases.TestCase;
 import mysql.tcases.TestCaseDB;
 import custom.DefaultValue;
@@ -43,7 +39,7 @@ public class CreateServlet extends HttpServlet {
             framework = URLDecoder.decode( framework, "UTF-8" );
             
             TestCase testCase = new TestCase(name, null, false, framework);
-            TestCaseDB.insert(testCase);
+            new TestCaseDB().insert(testCase);
             
             response.sendRedirect(request.getContextPath() + "/tcase_index");
         }

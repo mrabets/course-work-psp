@@ -27,7 +27,7 @@ public class UpdateServlet extends HttpServlet {
 		if (session.getAttribute("login") != null) {
 			try {
 	            int id = Integer.parseInt(request.getParameter("id"));
-	            UnitTest unitTest = UnitTestDB.selectOne(id);
+	            UnitTest unitTest = new UnitTestDB().selectOne(id);
 	            if(unitTest!=null) {
 	                request.setAttribute("unitTest", unitTest);
 	                getServletContext().getRequestDispatcher("/utest_update.jsp").forward(request, response);
@@ -62,7 +62,7 @@ public class UpdateServlet extends HttpServlet {
             java.sql.Date createdAt = new java.sql.Date(temp.getTime());
             
             UnitTest unitTest = new UnitTest(id, name, errorsNumber, leadTime, createdAt);
-            UnitTestDB.update(unitTest);
+            new UnitTestDB().update(unitTest);
             response.sendRedirect(request.getContextPath() + "/utest_index");
         }
         catch(Exception ex) {

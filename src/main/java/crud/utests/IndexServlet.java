@@ -17,7 +17,7 @@ public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		ArrayList<UnitTest> unit_tests = UnitTestDB.select();
+		ArrayList<UnitTest> unit_tests = new UnitTestDB().select();
         request.setAttribute("unit_tests", unit_tests);
           
         getServletContext().getRequestDispatcher("/utest_index.jsp").forward(request, response);
