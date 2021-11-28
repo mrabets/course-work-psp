@@ -24,3 +24,6 @@ CREATE TABLE test_cases (
   is_complete TINYINT(1) DEFAULT 0, 
   framework VARCHAR(40)
 );
+
+INSERT INTO user(login, password, is_admin)
+VALUES ("admin", "admin", 1);
